@@ -1,0 +1,42 @@
+#安装WSL2
+
+
+#%userprofile%下设置wsl安装默认硬盘大小，此处设置为512GB
+.wslconfig
+[wsl2]
+defaultVhdSize=512GB
+
+wsl --shutdown
+
+
+#下载ubuntu24.04 wsl
+https://releases.ubuntu.com/noble/
+
+
+#导入安装
+wsl --import <发行版名称> <安装路径> <镜像文件路径> --version 2
+使用以下命令导入 Ubuntu 24.04 映像：wsl --import Ubuntu-24.04 E:\Ubuntu-24.04 E:\ubuntu-24.04.3-wsl-amd64.wsl
+
+
+#安装完查看
+wsl --list --verbose
+
+#启动
+wsl -d Ubuntu-24.04
+
+## 设置个人用户
+adduser maxli
+usermod -aG sudo maxli
+
+sudo nano /etc/wsl.conf
+[user]
+default=maxli
+
+
+sudo apt update
+sudo apt upgrade
+
+
+#重启
+wsl --terminate Ubuntu-24.04
+wsl -d Ubuntu-24.04
