@@ -1,0 +1,23 @@
+FROM ubuntu:24.04
+
+WORKDIR /App
+CMD ["bash"]
+
+# 基础开发工具（含 curl、software-properties-common，供添加仓库使用）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    autoconf \
+    libtool \
+    automake \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    lsb-release \
+    software-properties-common \
+    python3-pip \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+
+
