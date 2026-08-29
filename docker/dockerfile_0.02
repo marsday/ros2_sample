@@ -1,0 +1,32 @@
+FROM my_ros2_dev:0.01
+
+# 设置 locale（ROS2 需要 UTF-8 环境）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    locales \
+    && locale-gen en_US en_US.UTF-8 \
+    && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+
+# 启用 universe 仓库
+RUN add-apt-repository universe
+
+# 添加 ROS2 apt 仓库（Jazzy）
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
+
+# 安装 ros-jazzy-desktop（ros-base + RViz2、rqt、demo、turtlesim）
+RUN apt-get update && apt-get install -y ros-jazzy-desktop \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安装 colcon 构建工具（ROS2 发行版不包含，需单独安装）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-colcon-common-extensions \
+    && rm -rf /var/lib/apt/lists/*
+
+# 交互式 shell 自动 source ROS2 环境
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
+
+
