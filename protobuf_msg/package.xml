@@ -1,21 +1,15 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>publisher_node</name>
+  <name>protobuf_msg</name>
   <version>0.0.1</version>
-  <description>Publisher node that publishes sum results every 1s</description>
+  <description>Protobuf-based message shared library for ros2_sample</description>
   <maintainer email="user@example.com">user</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>rclcpp</depend>
-  <depend>common_functions</depend>
-  <depend>sample_msgs</depend>
-  <depend>protobuf_msg</depend>
-
-  <exec_depend>launch</exec_depend>
-  <exec_depend>ros2launch</exec_depend>
+  <depend>protobuf-dev</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

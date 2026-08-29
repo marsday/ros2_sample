@@ -1,0 +1,8 @@
+FROM my_ros2_dev:0.02
+
+# 安装 protobuf 开发库与编译器（用于生成 .pb.cc/.pb.h 并链接动态库）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libprotobuf-dev \
+    protobuf-compiler \
+    && rm -rf /var/lib/apt/lists/*
+

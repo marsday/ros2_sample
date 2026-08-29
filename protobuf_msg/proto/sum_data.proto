@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package protobuf_msg;
+
+// 一个简单的求和数据消息，用于演示 protobuf 序列化
+message SumData {
+  int64 a = 1;
+  int64 b = 2;
+  int64 result = 3;
+}

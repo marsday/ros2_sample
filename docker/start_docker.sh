@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-IMAGE="my_ros2_dev:0.02"
+IMAGE="my_ros2_dev:0.03"
 CONTAINER="$(whoami)_ros2_dev"
 TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
@@ -54,17 +54,29 @@ enter_container_as_user() {
 # 主流程：确保容器存在且运行，最后进入容器
 main() {
   local container="${CONTAINER}"
+  local image="${IMAGE}"
 
   # 容器不存在 → 创建并启动
   if [ -z "$(docker ps -a -q -f "name=^/${container}$")" ]; then
     echo "[start_docker] 容器 ${container} 不存在，开始创建并启动..."
     start_container_with_user
-  # 容器存在但未运行 → 启动
-  elif [ -z "$(docker ps -q -f "name=^/${container}$")" ]; then
-    echo "[start_docker] 容器 ${container} 已存在但未运行，开始启动..."
-    docker start "${container}"
   else
-    echo "[start_docker] 容器 ${container} 已在运行。"
+    # 检查容器使用的镜像版本是否与期望一致
+    local current_image
+    current_image="$(docker inspect -f '{{.Config.Image}}' "${container}" 2>/dev/null)"
+
+    if [ "${current_image}" != "${image}" ]; then
+      # 镜像版本不一致 → 删除旧容器并重建
+      echo "[start_docker] 容器 ${container} 使用镜像 ${current_image}，与期望 ${image} 不一致，重建容器..."
+      docker rm -f "${container}"
+      start_container_with_user
+    elif [ -z "$(docker ps -q -f "name=^/${container}$")" ]; then
+      # 镜像一致但未运行 → 启动
+      echo "[start_docker] 容器 ${container} 已存在但未运行，开始启动..."
+      docker start "${container}"
+    else
+      echo "[start_docker] 容器 ${container} 已在运行。"
+    fi
   fi
 
   enter_container_as_user

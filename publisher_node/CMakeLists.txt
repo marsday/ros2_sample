@@ -9,12 +9,14 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(common_functions REQUIRED)
 find_package(sample_msgs REQUIRED)
+find_package(protobuf_msg REQUIRED)
 
 add_executable(publisher_node src/publisher_node.cpp)
 ament_target_dependencies(publisher_node
   rclcpp
   common_functions
   sample_msgs
+  protobuf_msg
 )
 
 install(
