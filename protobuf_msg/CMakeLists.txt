@@ -43,7 +43,7 @@ endforeach()
 add_library(${PROJECT_NAME} SHARED ${PROTO_SRCS})
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${PROTO_BINARY_DIR}>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+  $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC protobuf::libprotobuf)
 
@@ -60,7 +60,6 @@ install(
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
 )
 
 ament_package()
