@@ -9,20 +9,38 @@ source /opt/ros/jazzy/setup.bash
 
 cd "$WORKSPACE_DIR"
 
-echo "========== [1/5] Building sample_msgs =========="
-bash "$WORKSPACE_DIR/sample_msgs/build.sh"
+# 基础依赖包需优先构建（被其他包 depend，必须先生成）
+PRIORITY_PKGS=(sample_msgs common_functions protobuf_msg)
 
-echo "========== [2/5] Building common_functions =========="
-bash "$WORKSPACE_DIR/common_functions/build.sh"
+# 自动收集工作区下所有含 build.sh 的包目录，排除特殊目录
+packages=()
+for dir in "$WORKSPACE_DIR"/*/; do
+  name="$(basename "$dir")"
+  case "$name" in
+    scripts|install|build|log) continue ;;
+    .*) continue ;;
+  esac
+  [ -f "${dir}build.sh" ] && packages+=("$name")
+done
 
-echo "========== [3/5] Building protobuf_msg =========="
-bash "$WORKSPACE_DIR/protobuf_msg/build.sh"
+# 1) 先按依赖顺序构建基础包
+for pkg in "${PRIORITY_PKGS[@]}"; do
+  [ -f "$WORKSPACE_DIR/$pkg/build.sh" ] || continue
+  echo "========== Building ${pkg} =========="
+  bash "$WORKSPACE_DIR/$pkg/build.sh"
+done
 
-echo "========== [4/5] Building publisher_node =========="
-bash "$WORKSPACE_DIR/publisher_node/build.sh"
+# 2) 再构建其余自动发现的包（跳过已在优先级列表中构建过的）
+for pkg in "${packages[@]}"; do
+  skip=false
+  for p in "${PRIORITY_PKGS[@]}"; do
+    [ "$pkg" = "$p" ] && skip=true && break
+  done
+  $skip && continue
 
-echo "========== [5/5] Building subscriber_node =========="
-bash "$WORKSPACE_DIR/subscriber_node/build.sh"
+  echo "========== Building ${pkg} =========="
+  bash "$WORKSPACE_DIR/$pkg/build.sh"
+done
 
 echo "========== Build all done =========="
 

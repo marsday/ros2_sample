@@ -13,6 +13,6 @@ if [ -f "$PID_FILE" ]; then
     fi
     rm -f "$PID_FILE"
 else
-    echo "No PID file found, trying pkill"
+    echo "No PID file found, trying pkill ${PID_FILE}"
     pkill -f "install/subscriber_node/lib/subscriber_node/subscriber_node" 2>/dev/null && echo "subscriber_node killed" || echo "subscriber_node not running"
 fi
