@@ -25,6 +25,7 @@ start_container_with_user() {
 
   # 1. 启动容器（root），注入用户信息环境变量
   docker run -d \
+    --init \
     --name "${container}" \
     --hostname "$(hostname)_in_docker" \
     -v "${TOP_DIR}:/workspace" \

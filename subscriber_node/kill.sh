@@ -1,6 +1,6 @@
 #!/bin/bash
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE_DIR="$(dirname "$SCRIPT_DIR")"
+INSTALL_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_DIR="$(dirname "$INSTALL_SCRIPT_DIR")/../.."
 PID_FILE="$WORKSPACE_DIR/.ros/log/subscriber_node.pid"
 
 if [ -f "$PID_FILE" ]; then

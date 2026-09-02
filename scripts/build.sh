@@ -6,7 +6,7 @@ WORKSPACE_DIR="$(dirname "$SCRIPT_DIR")"
 mkdir -p ${WORKSPACE_DIR}/install/scripts
 
 source /opt/ros/jazzy/setup.bash
-source "$WORKSPACE_DIR/install/setup.bash"
+
 cd "$WORKSPACE_DIR"
 
 echo "========== [1/5] Building sample_msgs =========="
