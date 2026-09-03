@@ -12,7 +12,6 @@
   <depend>rclcpp</depend>
   <depend>common_functions</depend>
   <depend>sample_msgs</depend>
-  <depend>protobuf_msg</depend>
 
   <exec_depend>launch</exec_depend>
   <exec_depend>ros2launch</exec_depend>

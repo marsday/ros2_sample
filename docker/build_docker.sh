@@ -1,6 +1,22 @@
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOCKER_IMAGE_BASENAME="my_ros2_dev"
 ### 安装基础编译环境
-docker build -f ./dockerfile_0.01 -t my_ros2_dev:0.01 .
+if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.01)" ]; then
+    echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.01..."
+    docker build -f ${SCRIPT_DIR}/dockerfile_0.01 -t ${DOCKER_IMAGE_BASENAME}:0.01 ${SCRIPT_DIR}
+fi
 ### 安装 ROS2
-docker build -f ./dockerfile_0.02 -t my_ros2_dev:0.02 .
+if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.02)" ]; then
+    echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.02..."
+    docker build -f ${SCRIPT_DIR}/dockerfile_0.02 -t ${DOCKER_IMAGE_BASENAME}:0.02 ${SCRIPT_DIR}
+fi
 ### 安装 colcon
-docker build -f ./dockerfile_0.03 -t my_ros2_dev:0.03 .
+if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.03)" ]; then
+    echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.03..."
+    docker build -f ${SCRIPT_DIR}/dockerfile_0.03 -t ${DOCKER_IMAGE_BASENAME}:0.03 ${SCRIPT_DIR}
+fi
+### 安装 gtest
+if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.04)" ]; then
+    echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.04..."
+    docker build -f ${SCRIPT_DIR}/dockerfile_0.04 -t ${DOCKER_IMAGE_BASENAME}:0.04 ${SCRIPT_DIR}
+fi

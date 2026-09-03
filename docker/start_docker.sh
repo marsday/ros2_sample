@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-IMAGE="my_ros2_dev:0.03"
+IMAGE="my_ros2_dev:0.04"
 CONTAINER="$(whoami)_ros2_dev"
 TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
