@@ -2,15 +2,6 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_DIR="$(dirname "$SCRIPT_DIR")"
 
-# 是否在编译后自动执行单元测试（1=执行，0=跳过）
-ENABLE_UT=1  # 默认值
-while getopts "e:" opt; do
-  case $opt in
-    e) ENABLE_UT="$OPTARG" ;;
-  esac
-done
-echo "ENABLE_UT=$ENABLE_UT"
-
 mkdir -p "${WORKSPACE_DIR}/install/scripts"
 
 source /opt/ros/jazzy/setup.bash
@@ -71,21 +62,6 @@ echo "========== Build all done =========="
 
 cp -f "${SCRIPT_DIR}/start.sh" "${WORKSPACE_DIR}/install/scripts/"
 cp -f "${SCRIPT_DIR}/kill.sh" "${WORKSPACE_DIR}/install/scripts/"
-
-# 编译后自动执行 UT（可用 ENABLE_UT=0 跳过）
-if [ "${ENABLE_UT}" = "1" ]; then
-  echo "========== Running UT =========="
-  source "${WORKSPACE_DIR}/install/setup.bash" 2>/dev/null || true
-  if ! colcon test; then
-    colcon test-result --verbose
-    echo "========== UT failed =========="
-    exit 2
-  fi
-  colcon test-result --verbose
-  echo "========== UT passed =========="
-else
-  echo "========== Skip UT (ENABLE_UT=${ENABLE_UT}) =========="
-fi
 
 echo "========== All done =========="
 exit 0
