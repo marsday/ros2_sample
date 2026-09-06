@@ -1,6 +1,0 @@
-FROM my_ros2_dev:0.03
-
-# 安装 GTest 单元测试库（libgtest-dev 提供头文件与源码）
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgtest-dev \
-    && rm -rf /var/lib/apt/lists/*

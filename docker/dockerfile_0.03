@@ -6,3 +6,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     protobuf-compiler \
     && rm -rf /var/lib/apt/lists/*
 
+# 安装 GTest/GMock 单元测试库（libgtest-dev/libgmock-dev 提供头文件与源码）
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgtest-dev \
+    libgmock-dev \
+    && rm -rf /var/lib/apt/lists/*
+

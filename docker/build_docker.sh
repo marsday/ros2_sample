@@ -10,13 +10,8 @@ if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.02)" ]; then
     echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.02..."
     docker build -f ${SCRIPT_DIR}/dockerfile_0.02 -t ${DOCKER_IMAGE_BASENAME}:0.02 ${SCRIPT_DIR}
 fi
-### 安装 colcon
+### 安装 protobuf 与 GTest/GMock
 if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.03)" ]; then
     echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.03..."
     docker build -f ${SCRIPT_DIR}/dockerfile_0.03 -t ${DOCKER_IMAGE_BASENAME}:0.03 ${SCRIPT_DIR}
-fi
-### 安装 gtest
-if [ -z "$(docker images -q ${DOCKER_IMAGE_BASENAME}:0.04)" ]; then
-    echo "Building Docker image ${DOCKER_IMAGE_BASENAME}:0.04..."
-    docker build -f ${SCRIPT_DIR}/dockerfile_0.04 -t ${DOCKER_IMAGE_BASENAME}:0.04 ${SCRIPT_DIR}
 fi
